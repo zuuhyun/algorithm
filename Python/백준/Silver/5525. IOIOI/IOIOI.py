@@ -1,17 +1,17 @@
 n = int(input())
 m = int(input())
 s = input()
-form = 2*n+1
-P = ''
-for i in range(1, form+1):
-    if i % 2 == 0:
-        P += 'O'
-    else:
-        P += 'I'
+answer, cursor, cnt = 0, 0, 0
 
-answer = 0
-for i in range(m):
-    if P == s[i:form+i]:
-        answer += 1
+while cursor < m - 1:
+    if s[cursor:cursor+3] == 'IOI':
+        cnt += 1
+        cursor += 2
+        if cnt == n:
+            cnt -= 1
+            answer += 1
+    else:
+        cursor += 1
+        cnt = 0
 
 print(answer)
