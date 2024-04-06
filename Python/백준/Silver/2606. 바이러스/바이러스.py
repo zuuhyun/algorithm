@@ -1,19 +1,28 @@
-coms = int(input())
+import sys
+input = sys.stdin.readline
+
+def bfs(V):
+    visited[V] = True
+    queue = [V]
+    answer = 0
+    while queue:
+        V = queue.pop(0)
+        for i in range(1, com+1):
+            if graph[V][i] == 1 and visited[i] == False:
+                visited[i] = True
+                queue.append(i)
+                answer += 1
+
+    return answer
+
+
+com = int(input())
 conn = int(input())
+graph = [[0] * (com+1) for _ in range(com+1)]
+visited = [False] * (com + 1)
 
-graph = [[0]*(coms+1) for _ in range(coms+1)]
+for _ in range(conn):
+    x, y = map(int, input().split())
+    graph[x][y] = graph[y][x] = 1
 
-for i in range(conn):
-    a,b = map(int, input().split())
-    graph[a][b] = graph[b][a] = 1
-
-visitied = [0] * (coms+1)
-
-def dfs(V):
-    visitied[V] = 1
-    for i in range(1, coms+1):
-        if visitied[i] == 0 and graph[V][i] == 1:
-            dfs(i)
-
-dfs(1)
-print(sum(visitied) - 1)
+print(bfs(1))
