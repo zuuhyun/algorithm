@@ -8,7 +8,7 @@ import sys
 input = sys.stdin.readline
 
 n,m = map(int, input().split())
-ladders, snakes = {},{}
+events = {}
 
 def bfs():
     board = [False] * 101
@@ -25,10 +25,8 @@ def bfs():
             if next_cell == 100:
                 return dist[current] + 1
 
-            if next_cell in ladders:
-                next_cell = ladders[next_cell]
-            elif next_cell in snakes:
-                next_cell = snakes[next_cell]
+            if next_cell in events:
+                next_cell = events[next_cell]
 
             if next_cell <= 100 and not board[next_cell]:
                 board[next_cell] = True
@@ -36,12 +34,8 @@ def bfs():
                 queue.append(next_cell)
 
 
-for _ in range(n):
-    ladder, move = map(int, input().split())
-    ladders[ladder] = move
-
-for _ in range(m):
-    snake, move = map(int, input().split())
-    snakes[snake] = move
+for _ in range(n+m):
+    event, move = map(int, input().split())
+    events[event] = move
 
 print(bfs())
