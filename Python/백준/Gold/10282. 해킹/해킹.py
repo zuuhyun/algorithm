@@ -1,41 +1,38 @@
 import heapq
 import sys
 input = sys.stdin.readline
-inf = sys.maxsize
-
+INF = sys.maxsize
 def dijkstra(start):
-    dist = [inf] * (n+1)
+    dist = [INF] * (n+1)
     dist[start] = 0
     heap = []
-    heapq.heappush(heap,(dist[start],start))
+    heapq.heappush(heap, (dist[start],start))
 
     while heap:
         cost, current = heapq.heappop(heap)
         if cost > dist[current]:
             continue
-
-        for node_idx, node_cost in graph[current]:
-            new_cost = cost + node_cost
-            if new_cost < dist[node_idx]:
-                dist[node_idx] = new_cost
-                heapq.heappush(heap, (new_cost, node_idx))
+        for next_node, next_cost in conn[current]:
+            new_cost = next_cost + cost
+            if new_cost < dist[next_node]:
+                dist[next_node] = new_cost
+                heapq.heappush(heap,(new_cost, next_node))
 
     return dist
-
-
 
 T = int(input())
 for _ in range(T):
     n, d, c = map(int, input().split())
-    graph = [[] for _ in range(n+1)]
+    conn = [[] for _ in range(n+1)]
     for _ in range(d):
         a, b, s = map(int, input().split())
-        graph[b].append((a,s))
+        conn[b].append((a,s))
 
-    dist = dijkstra(c)
-    cnt, time = 0, 0
-    for value in dist:
-        if value != inf:
+    result = dijkstra(c)
+    cnt, max_ans = 0,0
+    for res in result:
+        if res != INF:
             cnt += 1
-            time = max(time, value)
-    print(f'{cnt} {time}')
+            max_ans = max(max_ans, res)
+
+    print(f'{cnt} {max_ans}')
